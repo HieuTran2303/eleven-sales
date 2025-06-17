@@ -27,21 +27,27 @@ def get_sales_by_month(month=None):
     with open(SALES_FILE, 'r') as file:
         reader = csv.DictReader(file)
         for row in reader:
-            row_date = datetime.strptime(row['Date'], "%Y-%m-%d")
-            row_month = row_date.strftime("%Y-%m")
-            total = int(row['Quantity']) * float(row['Price'])
+            try:
+                if not row['Date']:
+                    continue
+                row_date = datetime.strptime(row['Date'], "%Y-%m-%d")
+                row_month = row_date.strftime("%Y-%m")
+                total = int(row['Quantity']) * float(row['Price'])
 
-            if not month or row_month == month:
-                date_str = row_date.strftime("%Y-%m-%d")
-                daily_totals[date_str] += total
-                monthly_total += total
-                sales.append({
-                    'date': row['Date'],
-                    'item': row['Item'],
-                    'quantity': row['Quantity'],
-                    'price': row['Price'],
-                    'total': f"{total:.2f}"
-                })
+                if not month or row_month == month:
+                    date_str = row_date.strftime("%Y-%m-%d")
+                    daily_totals[date_str] += total
+                    monthly_total += total
+                    sales.append({
+                        'date': row['Date'],
+                        'item': row['Item'],
+                        'quantity': row['Quantity'],
+                        'price': row['Price'],
+                        'total': f"{total:.2f}"
+                    })
+            except Exception as e:
+                print("⛔ Bỏ qua dòng lỗi:", row, "| Lý do:", e)
+                continue
 
     return sales, monthly_total, dict(sorted(daily_totals.items()))
 
