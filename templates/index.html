@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ElEvEn Sales</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="p-5 bg-light">
+
+  <div class="container">
+    <h1 class="mb-4">➕ Add Sale</h1>
+    <form method="POST" class="mb-5">
+      <div class="mb-3">
+        <input class="form-control" type="text" name="item" placeholder="Item name" required>
+      </div>
+      <div class="mb-3">
+        <input class="form-control" type="number" name="quantity" placeholder="Quantity" required>
+      </div>
+      <div class="mb-3">
+        <input class="form-control" type="number" name="price" placeholder="Price" step="0.01" required>
+      </div>
+      <button class="btn btn-primary" type="submit">💾 Save</button>
+    </form>
+
+    <form action="/report" class="mb-3">
+      <label for="month" class="form-label">📆 View report by month:</label>
+      <input class="form-control mb-2" type="month" name="month" required>
+      <button class="btn btn-success">📊 View Report</button>
+    </form>
+  </div>
+
+</body>
+</html>
