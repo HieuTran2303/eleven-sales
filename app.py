@@ -8,13 +8,24 @@ app = Flask(__name__)
 SALES_FILE = 'sales.csv'
 
 def save_sale(item, quantity, price):
-    date = datetime.now().strftime('%Y-%m-%d')
-    file_exists = os.path.isfile(SALES_FILE)
-    with open(SALES_FILE, 'a', newline='') as file:
-        writer = csv.writer(file)
+    try:
+        date = datetime.now().strftime('%Y-%m-%d')
+        file_exists = os.path.isfile(SALES_FILE)
+        
+        # Nếu file không tồn tại, tạo mới
         if not file_exists:
-            writer.writerow(['Date', 'Item', 'Quantity', 'Price'])
-        writer.writerow([date, item, quantity, price])
+            with open(SALES_FILE, 'w', newline='') as f:
+                writer = csv.writer(f)
+                writer.writerow(['Date', 'Item', 'Quantity', 'Price'])
+
+        # Ghi dữ liệu vào file
+        with open(SALES_FILE, 'a', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow([date, item, quantity, price])
+        print(f"✅ Đã ghi: {item} - {quantity} - {price} vào sales.csv")
+
+    except Exception as e:
+        print("⛔ Lỗi khi ghi file sales.csv:", e)
 
 def get_sales_by_month(month=None):
     sales = []
